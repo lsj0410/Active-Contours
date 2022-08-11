@@ -109,24 +109,6 @@ def update_phi(phi, u, dt, h, mu, nu, l1, l2):
   newphi = newphi.reshape((x, y))
   return newphi
 
-# Identifying points where phi is 0
-def phi_to_contour(u):
-  [x, y] = u.shape
-  phi_contour = np.zeros((x, y))
-  phi_heaviside = np.heaviside(u, 0.5)
-  n = 0
-  for i in range(x):
-    for j in range(y):
-      d1 = abs(phi_heaviside[i, j] - phi_heaviside[max(0, i - 1), j])
-      d2 = abs(phi_heaviside[i, j] - phi_heaviside[min(i + 1, x - 1), j])
-      d3 = abs(phi_heaviside[i, j] - phi_heaviside[i, max(0, j - 1)])
-      d4 = abs(phi_heaviside[i, j] - phi_heaviside[i, min(j + 1, y - 1)])
-      if (d1 + d2 + d3 + d4 > 1):
-        phi_contour[i, j] = 1
-      else:
-        phi_contour[i, j] = 0
-  return phi_contour
-
 def plus(x):
   if x>0:
     return x
@@ -218,7 +200,7 @@ n = 0 # Initialize n
 dt = 0.1
 h = 1
 mu = 1
-nu = 0.1
+nu = 0
 l1 = 1
 l2 = 1
 
